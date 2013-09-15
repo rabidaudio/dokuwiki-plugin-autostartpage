@@ -1,12 +1,14 @@
 autostartpage Plugin for DokuWiki
+---------------------------------
 
-include previous page versions in search results
+Automatically create start pages for new namespaces. Handy if you
+use start pages as indexes.
 
 All documentation for this plugin can be found at
 http://dokuwiki.org/plugin:autostartpage
 
 If you install this plugin manually, make sure it is installed in
-lib/plugins/autostartpage/ - if the folder is called different it
+lib/plugins/autostartpage/ - if the folder is named someting else it
 will not work!
 
 Please refer to http://www.dokuwiki.org/plugins for additional info
