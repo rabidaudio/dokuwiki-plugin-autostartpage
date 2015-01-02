@@ -96,8 +96,6 @@ class action_plugin_autostartpage extends DokuWiki_Action_Plugin {
                 $wikitext=str_replace($matches[0], strftime($matches[1]), $wikitext);
             }
 
-            dbglog(array($id, auth_quickaclcheck($id)));
-            
             if(auth_quickaclcheck($id) >= AUTH_CREATE || $this->getConf('forcecreate')){
 
                 if(!@file_exists($file)){
