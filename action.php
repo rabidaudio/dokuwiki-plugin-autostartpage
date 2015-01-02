@@ -46,13 +46,9 @@ class action_plugin_autostartpage extends DokuWiki_Action_Plugin {
             $id=$ns.":".$conf['start'];
             $file=wikiFN($id);
             $silent=$this->getConf('silent');
-
             $ns_sepchar = ":";
-            dbglog($ns_sepchar);
 
             $parent=implode($ns_sepchar, array_splice(preg_split("/".preg_quote($ns_sepchar, "/")."/", $ns), 0, -1));
-            dbglog($parent);
-            dbglog(noNS(noNS($ns)));
             $goodns=preg_replace("/".$conf['sepchar']."/"," ",noNS($ns));
             $page=preg_replace("/".$conf['sepchar']."/"," ",noNS($id));
             $f=$conf['start'];
