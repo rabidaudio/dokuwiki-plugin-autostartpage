@@ -47,6 +47,12 @@ class action_plugin_autostartpage extends DokuWiki_Action_Plugin {
             $file=wikiFN($id);
             $silent=$this->getConf('silent');
 
+            $ns_sepchar = ":";
+            dbglog($ns_sepchar);
+
+            $parent=implode($ns_sepchar, array_splice(preg_split("/".preg_quote($ns_sepchar, "/")."/", $ns), 0, -1));
+            dbglog($parent);
+            dbglog(noNS(noNS($ns)));
             $goodns=preg_replace("/".$conf['sepchar']."/"," ",noNS($ns));
             $page=preg_replace("/".$conf['sepchar']."/"," ",noNS($id));
             $f=$conf['start'];
@@ -69,6 +75,7 @@ class action_plugin_autostartpage extends DokuWiki_Action_Plugin {
             // @!NS@        namespace of the page (with spaces) but with the first character uppercased
             // @!!NS@       namespace of the page (with spaces) but with the first character of all words uppercased
             // @!!NS!@      namespace of the page (with spaces) but with all characters uppercased
+            // @PARENT@     the name of the parent namespace. Blank if parent is top
             // @DATE=STRFTIME@   Where `STRFTIME` is a strftime configure string of page creation time,
             //       e.g. %a %d-%m-%y => Thu 06-12-12
             
@@ -88,12 +95,13 @@ class action_plugin_autostartpage extends DokuWiki_Action_Plugin {
             $wikitext=preg_replace("/@NAME@/",$INFO['userinfo']['name'], $wikitext);
             $wikitext=preg_replace("/@MAIL@/",$INFO['userinfo']['mail'], $wikitext);
             $wikitext=preg_replace("/@DATE@/",strftime("%D"), $wikitext);
+            $wikitext=preg_replace("/@PARENT@/",$parent, $wikitext);
             if(preg_match("/@DATE=(.*)@/", $wikitext, $matches)){
                 $wikitext=str_replace($matches[0], strftime($matches[1]), $wikitext);
             }
             
             if(!@file_exists($file)){
-                
+
                 saveWikiText($id, $wikitext, "autostartpage", $minor = false); 
                 $ok = @file_exists($file);
 
