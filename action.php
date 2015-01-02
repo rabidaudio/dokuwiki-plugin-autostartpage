@@ -74,9 +74,8 @@ class action_plugin_autostartpage extends DokuWiki_Action_Plugin {
             // @!NS@        namespace of the page (with spaces) but with the first character uppercased
             // @!!NS@       namespace of the page (with spaces) but with the first character of all words uppercased
             // @!!NS!@      namespace of the page (with spaces) but with all characters uppercased
-            /**TODO: ADD THESE, TOO**/
-            // %a %d-%m-%y etc.     e.g. Thu 06-12-12. Strftime placeholders are replaced by page creation time
-            // %%           a literal % character appears in your template 
+            // @DATE=STRFTIME@   Where `STRFTIME` is a strftime configure string of page creation time,
+            //       e.g. %a %d-%m-%y => Thu 06-12-12
             
             $wikitext=preg_replace("/@NS@/", $ns, $wikitext);
             $wikitext=preg_replace("/@!NS@/", ucfirst($goodns), $wikitext);
@@ -94,6 +93,9 @@ class action_plugin_autostartpage extends DokuWiki_Action_Plugin {
             $wikitext=preg_replace("/@NAME@/",$INFO['userinfo']['name'], $wikitext);
             $wikitext=preg_replace("/@MAIL@/",$INFO['userinfo']['mail'], $wikitext);
             $wikitext=preg_replace("/@DATE@/",strftime("%D"), $wikitext);
+            if(preg_match("/@DATE=(.*)@/", $wikitext, $matches)){
+                $wikitext=str_replace($matches[0], strftime($matches[1]), $wikitext);
+            }
             
             if(!@file_exists($file)){
                 /**
