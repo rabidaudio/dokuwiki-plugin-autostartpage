@@ -18,7 +18,7 @@ class action_plugin_autostartpage extends DokuWiki_Action_Plugin {
      * @return void
      */
     public function register(Doku_Event_Handler &$controller) {
-       $controller->register_hook('IO_NAMESPACE_CREATED', 'BEFORE', $this, 'autostartpage_handle');
+       $controller->register_hook('IO_NAMESPACE_CREATED', 'AFTER', $this, 'autostartpage_handle');
     }
 
     /**
@@ -43,11 +43,6 @@ class action_plugin_autostartpage extends DokuWiki_Action_Plugin {
         $ns=$event->data[0];
         $ns_type=$event->data[1];
         if($ns_type === "pages" && $wikitext){
-            /**
-             *  This event is called before the page has been created, so we can't look to see if it is a start page
-             *  the good news: we can create a start page, and if the user created the namespace with a start page,
-             *  it will probably just overwrite ours.
-             */
             $id=$ns.":".$conf['start'];
             $file=wikiFN($id);
             $silent=$this->getConf('silent');
@@ -98,13 +93,9 @@ class action_plugin_autostartpage extends DokuWiki_Action_Plugin {
             }
             
             if(!@file_exists($file)){
-                /**
-                 *  really, we should trigger IO_WIKIPAGE_WRITE, but if we do that, it will
-                 *  create a new namespace, causing an infinite loop! instead, we just write
-                 *  the file directly and hope for the best. If you can find a way to do this
-                 *  by triggering IO_WIKIPAGE_WRITE, then by all means, do it.
-                 */
-                $ok = io_saveFile($file, $wikitext, false);
+                
+                saveWikiText($id, $wikitext, "autostartpage", $minor = false); 
+                $ok = @file_exists($file);
 
                 if ($ok and !$silent){
                     msg($this->getLang('createmsg').' <a href="'.wl($id).'">'.noNS($id).'</a>', 1);
