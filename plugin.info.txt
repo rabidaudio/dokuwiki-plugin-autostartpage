@@ -1,7 +1,7 @@
 base   autostartpage
 author Charles Knight
 email  charles@rabidaudio.com
-date   2013-07-12
+date   2015-01-02
 name   Automatic startpage plugin
 desc   add a start page based on a template
-url    
+url    https://github.com/rabidaudio/dokuwiki-plugin-autostartpage
