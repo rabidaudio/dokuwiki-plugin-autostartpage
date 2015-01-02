@@ -95,20 +95,27 @@ class action_plugin_autostartpage extends DokuWiki_Action_Plugin {
             if(preg_match("/@DATE=(.*)@/", $wikitext, $matches)){
                 $wikitext=str_replace($matches[0], strftime($matches[1]), $wikitext);
             }
+
+            dbglog(array($id, auth_quickaclcheck($id)));
             
-            if(!@file_exists($file)){
+            if(auth_quickaclcheck($id) >= AUTH_CREATE || $this->getConf('forcecreate')){
 
-                saveWikiText($id, $wikitext, "autostartpage", $minor = false); 
-                $ok = @file_exists($file);
+                if(!@file_exists($file)){
 
-                if ($ok and !$silent){
-                    msg($this->getLang('createmsg').' <a href="'.wl($id).'">'.noNS($id).'</a>', 1);
-                }elseif (!$silent){
-                    msg($this->getLang('failmsg'), -1);
+                    saveWikiText($id, $wikitext, "autostartpage", $minor = false); 
+                    $ok = @file_exists($file);
+
+                    if ($ok and !$silent){
+                        msg($this->getLang('createmsg').' <a href="'.wl($id).'">'.noNS($id).'</a>', 1);
+                    }elseif (!$silent){
+                        msg($this->getLang('failmsg'), -1);
+                    }
                 }
+            }else{
+                msg($this->getLang('failmsg'), -1);
             }
         }elseif (!$wikitext and !$silent){
-                msg($this->getLang('templatemissing'));
+            msg($this->getLang('templatemissing'));
         }
     }
 }

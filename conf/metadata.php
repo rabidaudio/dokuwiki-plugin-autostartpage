@@ -7,4 +7,5 @@
 
 
 $meta['templatefile'] = array('string');
-$meta['silent'] = array('onoff');
+$meta['silent']       = array('onoff');
+$meta['forcecreate']  = array('onoff', '_caution' => 'danger');
