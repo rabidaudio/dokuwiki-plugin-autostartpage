@@ -2,7 +2,7 @@
 /**
  * Options for the searchrevisions plugin
  *
- * @author Charles Knight <charles@rabidaudio,com>
+ * @author Charles Knight <charles@rabidaudio.com>
  */
 
 
