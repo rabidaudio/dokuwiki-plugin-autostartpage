@@ -1,3 +1,8 @@
+# NOTE: This plugin is unmaintained
+
+Maintenance of this project has stagnated, and the plugin is likely incompatible with PHP7 and the latest versions of DokuWiki in it's current state. The project is seeking a maintainer. See the announcement here: https://github.com/rabidaudio/dokuwiki-plugin-autostartpage/issues/6 
+
+
 autostartpage Plugin for DokuWiki
 ---------------------------------
 
